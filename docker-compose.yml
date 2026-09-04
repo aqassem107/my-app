@@ -1,0 +1,21 @@
+services:
+  db:
+    build: ./database/.
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+  webapp:
+    build: ./src/.
+    environment:
+      - DB_SERVERNAME=db
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DBNAME=${MYSQL_DATABASE}
+    ports:
+      - "8080:80"
+    volumes:
+      - data_volume:/var/www/html
+    depends_on:
+      - db
+volumes:
+ data_volume:
